@@ -61,10 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Large Terrain Generator\Example\RuntimeExample.cs" />
-    <Compile Include="Assets\Large Terrain Generator\Terrain Generator\LargeTerrain.cs" />
-    <Compile Include="Assets\Large Terrain Generator\Terrain Generator\TerrainGenerator.cs" />
-    <None Include="Assets\Large Terrain Generator\readme.txt" />
+    <Compile Include="Assets\Scripts\CyborgController.cs" />
+    <None Include="Assets\read me.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Unity/Solo Projects/Unity Repositories/Arena Battle/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

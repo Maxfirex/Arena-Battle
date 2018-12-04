@@ -8,32 +8,34 @@ public class MovementController : MonoBehaviour {
     public float jump = 10f;
 
     Animator animator;
+    Rigidbody rb;
 
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void FixedUpdate () {
         //value for moving forwards and backwards
-        float vertical = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        float vertical = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
         //value for moving left and right
-        float horizontal = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        float horizontal = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
 
-        animator.speed = speed / 15f;
+        //Using GetAxisRaw because normalized then properly works (GetAxis has small interpolation of like 200-300ms and simulates analog on gamepad)
 
-        // Forward run
-        bool isRunningForward = Input.GetKey("w");
+        animator.speed = speed * 0.045f;
 
+        bool isRunningForward = Input.GetKey(KeyCode.W);
+        bool isRunningLeft = Input.GetKey(KeyCode.A);
+        bool isRunningRight = Input.GetKey(KeyCode.D);
+        bool isJumping = Input.GetKeyDown(KeyCode.Space);
 
-        // Left 90 angle run
-        bool isRunningLeft = Input.GetKey("a");
-
-
-        // Right 90 angle run
-        bool isRunningRight = Input.GetKey("d");
+        animator.SetBool("IsJumping", isJumping);
 
         // Left 45 angle run
         bool isRunningLeftAngle = (isRunningLeft && isRunningForward) ? true : false;
@@ -54,7 +56,13 @@ public class MovementController : MonoBehaviour {
             animator.SetBool("IsRunningLeft", false);
             animator.SetBool("IsRunningRight", false);
         }
-
-        transform.Translate(horizontal, 0, vertical);
+        if (isJumping)
+        {
+            rb.AddForce(horizontal, 100f * Time.deltaTime, vertical, ForceMode.Impulse);
+        }
+        else
+        {
+            transform.Translate(new Vector3(horizontal, 0, vertical).normalized / 2, Space.Self);
+        }
     }
 }

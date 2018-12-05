@@ -883,6 +883,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400116}
   - component: {fileID: 9500000}
+  - component: {fileID: 114184493047815166}
   m_Layer: 0
   m_Name: alien character
   m_TagString: Untagged
@@ -1935,3 +1936,18 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100116}
   m_IsPrefabAsset: 1
+--- !u!114 &114184493047815166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b051624b4908343ba9e3681fdae8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingDistance: 25
+  moveSpeed: 10
+  aggroRange: 40
+  aggroTimer: 5

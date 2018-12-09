@@ -9,14 +9,19 @@ public class EnemyController : MonoBehaviour {
     public float moveSpeed = 3f;
     public float aggroRange = 40f;
     public float aggroTimer = 5f;
+    public float rotationSpeed = 1.25f;
+    public float rotationTimer = 5f;
 
     private float timer;
+    private float rotTimer;
     private bool aggroed = false;
+    private bool rotate = false;
 
 	// Use this for initialization
 	void Start () {
         // Juicy player transform
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        rotTimer = rotationTimer;
 	}
 	
 	// Update is called once per frame
@@ -27,8 +32,6 @@ public class EnemyController : MonoBehaviour {
 
     void EnemyMovement()
     {
-        // Rotate towards a player
-        transform.LookAt(player.position);
         // Distance in float which we can measure
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
@@ -43,8 +46,14 @@ public class EnemyController : MonoBehaviour {
             // As long as distance is bigger than shooting range and player is in aggro radius, we move
         if (distance > shootingDistance && aggroed)
         {
+            // Rotate towards a player
+            transform.LookAt(player.position);
             // Moving an enemy towards the player
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        }
+        else
+        {
+            EnemyWander();
         }
     }
     // Aggro timer
@@ -63,5 +72,35 @@ public class EnemyController : MonoBehaviour {
             timer--;
         }
 
+    }
+
+    void EnemyRotationCountdown()
+    {
+        if (rotTimer == 0)
+        {
+            rotate = true;
+            CancelInvoke("EnemyRotationCountdown");
+        } else
+        {
+            rotate = false;
+            rotTimer--;
+        }
+    }
+
+    void EnemyWander()
+    {
+        InvokeRepeating("EnemyRotationCountdown", rotTimer, 1f);
+
+        Quaternion rotationTo = transform.rotation;
+
+        if (rotate)
+        {
+            rotationTo = Quaternion.Euler(new Vector3(0f, Random.Range(-180f, 180f), 0f));
+            rotTimer = rotationTimer;
+        }
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTo, Time.deltaTime * rotationSpeed);
+
+        transform.position += transform.forward * moveSpeed * Time.deltaTime;
     }
 }

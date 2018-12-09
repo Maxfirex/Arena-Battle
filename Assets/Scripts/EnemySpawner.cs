@@ -17,28 +17,20 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void LateUpdate () {
 
-        if (amount > 0)
+        if (FeatureControl.FeatureEnabled(FeatureControl.Feature.EnemySpawn))
         {
-            timer -= Time.deltaTime;
-
-            SpawnAnEnemy();
-        }
-
-	}
-
-    private void SpawnAnEnemy()
-    {
-        if (timer < 0)
-        {
-            enemy.transform.localScale = new Vector3(3f, 3f, 3f);
-
-            //Rotation not done
-            Instantiate(enemy, new Vector3(Random.Range(-220f, 220f), 0f, Random.Range(-220f, 220f)), Quaternion.identity);
-
-            timer = spawnTimer;
-            amount--;
+            SpawnEnemies();
         }
     }
+
+    private void SpawnEnemies()
+    {
+        Dictionary<string, float> dictionary = EnemyControl.Spawn(enemy, amount, timer, spawnTimer);
+
+        timer = dictionary["timer"];
+        amount = System.Convert.ToInt32(dictionary["amount"]);
+    }
+
 }

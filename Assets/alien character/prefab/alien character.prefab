@@ -1951,3 +1951,5 @@ MonoBehaviour:
   moveSpeed: 10
   aggroRange: 40
   aggroTimer: 5
+  rotationSpeed: 1.25
+  rotationTimer: 2

@@ -63,9 +63,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
-    <Compile Include="Assets\Scripts\Helper.cs" />
     <Compile Include="Assets\Scripts\MovementController.cs" />
     <Compile Include="Assets\Scripts\Shared\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Shared\GameController.cs" />
+    <Compile Include="Assets\Scripts\Static\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\Static\EnemyControl.cs" />
+    <Compile Include="Assets\Scripts\Static\FeatureControl.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Unity/Solo Projects/Unity Repositories/Arena Battle/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

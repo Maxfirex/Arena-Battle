@@ -7,13 +7,13 @@ public class EnemySpawner : MonoBehaviour {
     public GameObject enemy;
     public GameObject player;
     public int amount;
-    public float spawnTimer;
+    public float spawnTime;
 
     private float timer;
 
     private void Start()
     {
-        timer = spawnTimer;
+        timer = spawnTime;
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour {
 
     private void SpawnEnemies()
     {
-        Dictionary<string, float> dictionary = EnemyControl.Spawn(enemy, amount, timer, spawnTimer);
+        Dictionary<string, float> dictionary = EnemyControl.Spawn(enemy, amount, spawnTime, timer);
 
         timer = dictionary["timer"];
         amount = System.Convert.ToInt32(dictionary["amount"]);

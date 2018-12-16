@@ -10,22 +10,26 @@ public class EnemyController : MonoBehaviour {
     public float aggroRange = 40f;
     public float aggroTimer = 5f;
     public float rotationSpeed = 1.25f;
-    public float rotationTimer = 5f;
+    public float rotationTimer = 5;
 
-    private float timer;
-    private float rotTimer;
+    private float innerAggroTimer;
+    private float innerRotationTimer;
     private bool aggroed = false;
     private bool rotate = false;
+
+    private float cnt = 5f;
+    private int cnter = 0;
 
 	// Use this for initialization
 	void Start () {
         // Juicy player transform
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rotTimer = rotationTimer;
-	}
+        innerAggroTimer = aggroTimer;
+    }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+
         // Teaching enemy how to move
         EnemyMovement();
 	}
@@ -35,72 +39,60 @@ public class EnemyController : MonoBehaviour {
         // Distance in float which we can measure
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
-        // If player in aggro range, start running towards him
-        if (distance <= aggroRange)
-        {
+        // Enemy aggroed
+        if (distance <= aggroRange) {
             // Enemy has been aggroed
-            aggroed = true;
-            // Invoking aggro timer method
-            InvokeRepeating("AggroTimerCountdown", aggroTimer, 1f);
+            aggroed = true; 
         }
-            // As long as distance is bigger than shooting range and player is in aggro radius, we move
+        // If out of enemy aggro range, start countdown before stopping the chase
+        if (aggroed && distance > aggroRange)
+        {
+            innerAggroTimer -= Time.deltaTime;
+
+            // Countdown finished, chasing stopped
+            if (innerAggroTimer <= 0f)
+            {
+                aggroed = false;
+                innerAggroTimer = aggroTimer;
+            }
+        }
+
+        // As long as distance is bigger than shooting range and player is in aggro radius, we move
         if (distance > shootingDistance && aggroed)
         {
             // Rotate towards a player
-            transform.LookAt(player.position);
+            transform.LookAt(player.transform.position);
             // Moving an enemy towards the player
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
-        else
+        // When not aggroed, start wandering around
+        if (!aggroed)
         {
             EnemyWander();
         }
     }
-    // Aggro timer
-    void AggroTimerCountdown()
-    {
-        // If aggro timer is over, reset aggro
-        if (timer == 0)
-        {
-            // Reset aggro
-            aggroed = false;
-            // Stop aggro timer
-            CancelInvoke("AggroTimerCountdown");
-        } else
-        {
-            // Aggro timer is ticking
-            timer--;
-        }
-
-    }
-
-    void EnemyRotationCountdown()
-    {
-        if (rotTimer == 0)
-        {
-            rotate = true;
-            CancelInvoke("EnemyRotationCountdown");
-        } else
-        {
-            rotate = false;
-            rotTimer--;
-        }
-    }
-
     void EnemyWander()
     {
-        InvokeRepeating("EnemyRotationCountdown", rotTimer, 1f);
+        innerRotationTimer -= Time.deltaTime;
+
+        // Timer befpre rotating an enemy to a new direction
+        if (innerRotationTimer <= 0f) {
+            rotate = true;
+            innerRotationTimer = rotationTimer;
+        } else {
+            rotate = false;
+        }
 
         Quaternion rotationTo = transform.rotation;
 
+        // Rotate an enemy to a new direction
         if (rotate)
         {
             rotationTo = Quaternion.Euler(new Vector3(0f, Random.Range(-180f, 180f), 0f));
-            rotTimer = rotationTimer;
+            innerRotationTimer = rotationTimer;
         }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTo, Time.deltaTime * rotationSpeed);
-
+        // Move the enemy
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationTo, rotationSpeed);
         transform.position += transform.forward * moveSpeed * Time.deltaTime;
     }
 }

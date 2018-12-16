@@ -454,7 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ef1050ed920fb42bf717c898b10a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 10
   jump: 10
 --- !u!1 &1137068223
 GameObject:
@@ -486,7 +486,7 @@ MonoBehaviour:
   enemy: {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 2}
   player: {fileID: 938471503}
   amount: 5
-  spawnTimer: 1
+  spawnTime: 1
 --- !u!4 &1137068225
 Transform:
   m_ObjectHideFlags: 0
@@ -567,7 +567,33 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22,
+        type: 2}
+      propertyPath: amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22,
+        type: 2}
+      propertyPath: spawnTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22,
+        type: 2}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22, type: 2}
+    - target: {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22,
+        type: 2}
+      propertyPath: rotationTimer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22,
+        type: 2}
+      propertyPath: rotationSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114184493047815166, guid: e5836d050fdb354479bcd0d285bf2f22, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: e5836d050fdb354479bcd0d285bf2f22, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1503995126
@@ -1306,3 +1332,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2000135405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100116, guid: e5836d050fdb354479bcd0d285bf2f22,
+    type: 2}
+  m_PrefabInternal: {fileID: 1408408722}
+--- !u!114 &2000135406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2000135405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b051624b4908343ba9e3681fdae8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingDistance: 25
+  moveSpeed: 5
+  aggroRange: 40
+  aggroTimer: 5
+  rotationSpeed: 1.25
+  rotationTimer: 5
